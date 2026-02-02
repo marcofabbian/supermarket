@@ -1,0 +1,27 @@
+plugins {
+    id("org.springframework.boot") version "3.2.2"
+    id("io.spring.dependency-management") version "1.1.3"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.spring") version "1.9.10"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(project(":domain"))
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib"))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
