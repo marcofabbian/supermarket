@@ -10,7 +10,6 @@ build/
 *.war
 *.ear
 *.iml
-/.idea/
 /out/
 /target/
 /bin/
@@ -43,6 +42,7 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+.ds_store
 .AppleDouble
 .LSOverride
 
