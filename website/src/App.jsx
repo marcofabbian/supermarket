@@ -1,15 +1,16 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react'
 import ProductTable from './components/ProductTable'
 
-const initialProducts = [
-  { id: 1, image: 'https://picsum.photos/seed/milk/64', name: 'Milk 1L', supermarket: 'SuperMart', brand: 'DairyCo', price: 1.99 },
-  { id: 2, image: 'https://picsum.photos/seed/bread/64', name: 'Bread', supermarket: 'BakeryShop', brand: 'BakeHouse', price: 2.49 },
-  { id: 3, image: 'https://picsum.photos/seed/apples/64', name: 'Apples 1kg', supermarket: 'FreshFarm', brand: 'Orchard', price: 3.79 }
-]
+// Determine API base from Vite environment (VITE_API_URL) or default to /api
+// This lets the app be configured at build/runtime without hardcoding the backend URL.
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) ? (import.meta.env.VITE_API_URL + '/api') : '/api'
+const apiBase = API_BASE.replace(/\/$/, '')
 
+// No demo products used as default UI. Start with an empty list and show explicit
+// "loading in progress..." when fetching.
 export default function App() {
   const [query, setQuery] = useState('')
-  const [products, setProducts] = useState(initialProducts)
+  const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const abortRef = useRef(null)
@@ -30,7 +31,7 @@ export default function App() {
       setLoading(true)
       setError(null)
 
-      const url = '/api/products' + (q ? `?q=${encodeURIComponent(q)}` : '')
+      const url = `${apiBase}/products` + (q ? `?q=${encodeURIComponent(q)}` : '')
 
       fetch(url, { signal: controller.signal })
         .then(res => {
@@ -39,13 +40,13 @@ export default function App() {
         })
         .then(data => {
           if (Array.isArray(data)) setProducts(data)
-          else setProducts(initialProducts)
+          else setProducts([])
         })
         .catch(err => {
           if (err.name === 'AbortError') return
           console.error('Failed to fetch products', err)
-          setError('Failed to fetch products; showing local sample data')
-          setProducts(initialProducts)
+          setError('Failed to fetch products')
+          setProducts([])
         })
         .finally(() => {
           setLoading(false)
@@ -79,7 +80,7 @@ export default function App() {
         />
       </div>
 
-      {loading && <div className="mb-3">Loading products...</div>}
+      {loading && <div className="mb-3">loading in progress...</div>}
       {error && <div className="alert alert-warning">{error}</div>}
 
       <ProductTable products={filtered} />

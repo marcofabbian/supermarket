@@ -27,6 +27,15 @@ ENGINE_PORT_CONTAINER="8081"
 WEBSITE_PORT_HOST="3000"   # host port to access the website
 WEBSITE_PORT_CONTAINER="80" # container exposes nginx on 80
 
+# Postgres DB settings (local development)
+DB_IMAGE="postgres:15-alpine"
+DB_CONTAINER="supermarket-db-local"
+DB_PORT_HOST="5432"
+DB_PORT_CONTAINER="5432"
+DB_USER="supermarket"
+DB_PASSWORD="supermarket"
+DB_NAME="supermarket_db"
+
 # Helper logging
 info(){ printf "\n[INFO] %s\n" "$*"; }
 warn(){ printf "\n[WARN] %s\n" "$*"; }
@@ -88,8 +97,65 @@ info "Stopping and removing existing containers (if any)"
 docker rm -f "$WEB_API_CONTAINER" >/dev/null 2>&1 || true
 docker rm -f "$ENGINE_CONTAINER" >/dev/null 2>&1 || true
 docker rm -f "$WEBSITE_CONTAINER" >/dev/null 2>&1 || true
+docker rm -f "$DB_CONTAINER" >/dev/null 2>&1 || true
 
 info "Starting containers"
+
+# Start Postgres first so backend services can connect to it.
+if docker image inspect "$DB_IMAGE" >/dev/null 2>&1; then
+  info "Using existing image $DB_IMAGE"
+else
+  info "Pulling Postgres image $DB_IMAGE"
+  docker pull "$DB_IMAGE"
+fi
+
+info "Starting Postgres: $DB_CONTAINER"
+docker run -d --name "$DB_CONTAINER" \
+  -e POSTGRES_USER="$DB_USER" \
+  -e POSTGRES_PASSWORD="$DB_PASSWORD" \
+  -e POSTGRES_DB="$DB_NAME" \
+  -p ${DB_PORT_HOST}:${DB_PORT_CONTAINER} \
+  -v "$REPO_ROOT/database/src/main/resources/db/migration":/docker-entrypoint-initdb.d:ro \
+  "$DB_IMAGE"
+
+# Wait for Postgres to be ready (pg_isready in a loop)
+info "Waiting for Postgres to become available..."
+MAX_ATTEMPTS=30
+attempt=1
+until docker exec "$DB_CONTAINER" pg_isready -U "$DB_USER" >/dev/null 2>&1; do
+  if [ $attempt -ge $MAX_ATTEMPTS ]; then
+    err "Postgres did not become ready in time"
+  fi
+  printf "."
+  attempt=$((attempt+1))
+  sleep 1
+done
+info "Postgres is ready"
+
+# Apply migration scripts explicitly (idempotent if scripts use IF NOT EXISTS as in our SQL)
+info "Applying SQL migrations from database resources"
+
+# Run migration loop inside the Postgres container so the glob is expanded in-container
+# (the host filesystem does not contain /docker-entrypoint-initdb.d and expanding it on the host
+# leads to the literal pattern and the "No such file or directory" error).
+# We expand ${DB_USER} and ${DB_NAME} on the host so psql inside the container gets the correct user/db.
+
+docker exec -i "$DB_CONTAINER" sh -c "
+  set -e
+  found=false
+  for f in /docker-entrypoint-initdb.d/*.sql; do
+    # If the glob didn't match any files, the pattern will remain literal and we should break
+    if [ \"\$f\" = '/docker-entrypoint-initdb.d/*.sql' ]; then
+      break
+    fi
+    found=true
+    echo \"[DB] Applying \$f\"
+    psql -U ${DB_USER} -d ${DB_NAME} -f \"\$f\"
+  done
+  if [ \"\$found\" = false ]; then
+    echo '[DB] No SQL migration files found in /docker-entrypoint-initdb.d'
+  fi
+"
 
 if docker image inspect "$WEB_API_IMAGE" >/dev/null 2>&1; then
   docker run -d --name "$WEB_API_CONTAINER" -p ${WEB_API_PORT_HOST}:${WEB_API_PORT_CONTAINER} "$WEB_API_IMAGE"
