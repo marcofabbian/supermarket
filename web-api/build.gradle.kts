@@ -23,5 +23,9 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
 
+    // JDBC support for DB-backed repository
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    runtimeOnly("org.postgresql:postgresql:42.5.4")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

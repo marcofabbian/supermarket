@@ -15,6 +15,9 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
+    // JDBC support so the domain-level JdbcProductRepository compiles
+    implementation("org.springframework:spring-jdbc:6.1.3")
+
     // testing
     testImplementation(kotlin("test"))
 }
