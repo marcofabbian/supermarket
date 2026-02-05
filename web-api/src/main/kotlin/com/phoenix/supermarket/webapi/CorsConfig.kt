@@ -1,4 +1,4 @@
-package com.example.supermarket.webapi
+package com.phoenix.supermarket.webapi
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
@@ -32,7 +32,8 @@ class CorsConfig(
         registry.addMapping("/api/**")
             .allowedOrigins(*allowedOrigins)
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
+            .allowedHeaders("*", "X-Total-Count")
+            .exposedHeaders("X-Total-Count")
             .allowCredentials(false)
     }
 }

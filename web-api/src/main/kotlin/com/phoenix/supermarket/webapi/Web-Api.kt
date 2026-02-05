@@ -1,4 +1,4 @@
-package com.example.supermarket.webapi
+package com.phoenix.supermarket.webapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

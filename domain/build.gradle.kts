@@ -14,4 +14,12 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+
+    // testing
+    testImplementation(kotlin("test"))
+}
+
+// Ensure tests run on JUnit platform (used by kotlin-test)
+tasks.test {
+    useJUnitPlatform()
 }

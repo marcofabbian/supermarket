@@ -1,4 +1,4 @@
-package com.example.supermarket.domain
+package com.phoenix.supermarket.domain
 
 // Moved from web-api; keep the data shape here to be shared across modules
 data class Product(
