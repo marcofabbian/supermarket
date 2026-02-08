@@ -12,14 +12,8 @@ java {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
-// No runtime dependencies for now; SQL migration lives in resources
 dependencies {
     implementation(kotlin("stdlib"))
-    // JDBC driver required for Flyway to connect to Postgres when run from Gradle
     implementation("org.postgresql:postgresql:42.5.4")
 }
 

@@ -1,11 +1,11 @@
-package com.phoenix.supermarket.webapi
+package com.example.supermarket.engine
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
-class WebApiApplication
+@SpringbootApplication
+class EngineApplication
 
 fun main(args: Array<String>) {
-    runApplication<WebApiApplication>(*args)
+    runApplication<EngineApplication>(*args)
 }
