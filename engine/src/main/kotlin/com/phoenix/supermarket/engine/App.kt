@@ -1,9 +1,11 @@
-package com.example.supermarket.engine
+package com.phoenix.supermarket.engine
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringbootApplication
+@SpringbootApplication(
+    classpath = ["com.phoenix.supermarket.engine"]
+)
 class EngineApplication
 
 fun main(args: Array<String>) {

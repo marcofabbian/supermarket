@@ -1,4 +1,4 @@
-package com.example.supermarket.engine
+package com.phoenix.supermarket.engine
 
 import org.springframework.stereotype.Component
 

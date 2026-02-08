@@ -5,10 +5,12 @@ plugins {
     kotlin("plugin.spring") version "1.9.10"
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+repositories {
+    mavenCentral()
+    google()
+    gradlePluginPortal()
 }
 
 dependencies {

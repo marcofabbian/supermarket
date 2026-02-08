@@ -8,9 +8,9 @@ plugins {
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-logging")
-    implementation("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("org.springframework.boot:spring-boot-autoconfigure")
 
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
