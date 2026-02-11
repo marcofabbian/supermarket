@@ -3,9 +3,7 @@ package com.phoenix.supermarket.engine
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringbootApplication(
-    classpath = ["com.phoenix.supermarket.engine"]
-)
+@SpringBootApplication
 class EngineApplication
 
 fun main(args: Array<String>) {

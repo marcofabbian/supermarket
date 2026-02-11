@@ -8,12 +8,16 @@ plugins {
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 dependencies {
+    implementation(project(":domain"))
+
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib"))
+
     implementation("org.springframework.boot:spring-boot")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
 
-    implementation(kotlin("reflect"))
-    implementation(kotlin("stdlib"))
+
 
     //implementation("ai.koog:agents-core")      // core agent SDK
     //implementation("ai.koog:prompt-executor-openai-client") // OpenAI LLM
