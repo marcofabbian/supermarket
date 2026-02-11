@@ -1,5 +1,6 @@
 package com.phoenix.supermarket.domain
 
+import com.phoenix.supermarket.domain.repository.inMemory.InMemoryProductRepository
 import kotlin.test.*
 
 class InMemoryProductRepositoryTest {

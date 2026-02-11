@@ -1,5 +1,6 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository
 
+import com.phoenix.supermarket.domain.SupermarketPage
 import java.time.LocalDate
 
 interface SupermarketPageRepository {
@@ -10,4 +11,3 @@ interface SupermarketPageRepository {
     fun save(page: SupermarketPage): SupermarketPage
     fun delete(id: Long): Boolean
 }
-

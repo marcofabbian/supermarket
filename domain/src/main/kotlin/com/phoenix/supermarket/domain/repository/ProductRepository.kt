@@ -1,4 +1,6 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository
+
+import com.phoenix.supermarket.domain.Product
 
 /**
  * Repository abstraction for Product entities. Implementations can be in-memory, JDBC, JPA, etc.

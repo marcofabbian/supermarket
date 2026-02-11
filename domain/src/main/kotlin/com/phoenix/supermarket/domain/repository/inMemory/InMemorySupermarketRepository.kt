@@ -1,5 +1,7 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository.inMemory
 
+import com.phoenix.supermarket.domain.Supermarket
+import com.phoenix.supermarket.domain.repository.SupermarketRepository
 import java.time.OffsetDateTime
 import java.util.concurrent.atomic.AtomicLong
 
@@ -19,7 +21,12 @@ class InMemorySupermarketRepository(initial: List<Supermarket> = emptyList()) : 
         // ensure there is a default 'supermarket' repo entry
         if (store.values.none { it.name == "supermarket" }) {
             val id = idGen.getAndIncrement()
-            store[id] = Supermarket(id = id, name = "supermarket", repoBase = "https://github.com/your-org/supermarket", createdAt = OffsetDateTime.now())
+            store[id] = Supermarket(
+                id = id,
+                name = "supermarket",
+                repoBase = "https://github.com/your-org/supermarket",
+                createdAt = OffsetDateTime.now()
+            )
         }
     }
 
@@ -43,4 +50,3 @@ class InMemorySupermarketRepository(initial: List<Supermarket> = emptyList()) : 
 
     override fun delete(id: Long): Boolean = store.remove(id) != null
 }
-

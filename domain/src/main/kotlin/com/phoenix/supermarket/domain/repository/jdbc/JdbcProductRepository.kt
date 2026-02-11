@@ -1,7 +1,10 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository.jdbc
 
+import com.phoenix.supermarket.domain.Product
+import com.phoenix.supermarket.domain.repository.ProductRepository
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 
 /**
@@ -12,6 +15,7 @@ import java.sql.ResultSet
  * a compile-time dependency on `spring-jdbc` so the class compiles. The application module
  * (web-api) wires this implementation into Spring when the `db` profile is active.
  */
+@Repository
 class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository {
 
     private val mapper = RowMapper { rs: ResultSet, _: Int ->

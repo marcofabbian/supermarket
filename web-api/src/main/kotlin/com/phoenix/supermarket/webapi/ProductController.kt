@@ -1,7 +1,8 @@
 package com.phoenix.supermarket.webapi
 
 import com.phoenix.supermarket.domain.Product
-import com.phoenix.supermarket.domain.ProductRepository
+import com.phoenix.supermarket.domain.repository.ProductRepository
+import com.phoenix.supermarket.domain.repository.jdbc.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

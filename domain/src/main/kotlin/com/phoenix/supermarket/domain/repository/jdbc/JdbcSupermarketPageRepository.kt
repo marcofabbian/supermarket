@@ -1,11 +1,15 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository.jdbc
 
+import com.phoenix.supermarket.domain.SupermarketPage
+import com.phoenix.supermarket.domain.repository.SupermarketPageRepository
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.time.LocalDate
 import java.time.OffsetDateTime
 
+@Repository
 class JdbcSupermarketPageRepository(private val jdbc: JdbcTemplate) : SupermarketPageRepository {
 
     private val mapper = RowMapper { rs: ResultSet, _: Int ->
@@ -56,4 +60,3 @@ class JdbcSupermarketPageRepository(private val jdbc: JdbcTemplate) : Supermarke
         return rows > 0
     }
 }
-

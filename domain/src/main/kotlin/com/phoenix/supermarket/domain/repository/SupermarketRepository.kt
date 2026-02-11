@@ -1,4 +1,6 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository
+
+import com.phoenix.supermarket.domain.Supermarket
 
 interface SupermarketRepository {
     fun all(): List<Supermarket>
@@ -7,4 +9,3 @@ interface SupermarketRepository {
     fun save(supermarket: Supermarket): Supermarket
     fun delete(id: Long): Boolean
 }
-

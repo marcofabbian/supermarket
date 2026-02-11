@@ -1,4 +1,7 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository.inMemory
+
+import com.phoenix.supermarket.domain.Product
+import com.phoenix.supermarket.domain.repository.ProductRepository
 
 /**
  * Simple in-memory implementation of [ProductRepository]. Useful for tests and simple runtime.

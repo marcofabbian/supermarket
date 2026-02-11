@@ -1,8 +1,8 @@
 package com.phoenix.supermarket.webapi
 
-import com.phoenix.supermarket.domain.InMemoryProductRepository
-import com.phoenix.supermarket.domain.JdbcProductRepository
-import com.phoenix.supermarket.domain.ProductRepository
+import com.phoenix.supermarket.domain.repository.inMemory.InMemoryProductRepository
+import com.phoenix.supermarket.domain.repository.jdbc.JdbcProductRepository
+import com.phoenix.supermarket.domain.repository.ProductRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile

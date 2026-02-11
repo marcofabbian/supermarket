@@ -1,10 +1,32 @@
-package com.phoenix.supermarket.domain
+package com.phoenix.supermarket.domain.repository.inMemory
 
+import com.phoenix.supermarket.domain.SupermarketPage
+import com.phoenix.supermarket.domain.repository.SupermarketPageRepository
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.concurrent.atomic.AtomicLong
 
-class InMemorySupermarketPageRepository(initial: List<SupermarketPage> = emptyList()) : SupermarketPageRepository {
+// Provide a small default dataset used when no initial list is provided
+private fun defaultInitial(): List<SupermarketPage> = listOf(
+    SupermarketPage(
+        id = 1,
+        supermarketId = 1,
+        url = "https://github.com/your-org/supermarket",
+        dateFrom = LocalDate.parse("2026-01-01"),
+        dateTo = null,
+        createdAt = OffsetDateTime.now()
+    ),
+    SupermarketPage(
+        id = 2,
+        supermarketId = 1,
+        url = "https://github.com/your-org/supermarket/archive/2025",
+        dateFrom = LocalDate.parse("2025-06-01"),
+        dateTo = LocalDate.parse("2025-12-31"),
+        createdAt = OffsetDateTime.now().minusMonths(8)
+    )
+)
+
+class InMemorySupermarketPageRepository(initial: List<SupermarketPage> = defaultInitial()) : SupermarketPageRepository {
 
     private val idGen = AtomicLong(1)
     private val store = linkedMapOf<Long, SupermarketPage>()
@@ -40,4 +62,3 @@ class InMemorySupermarketPageRepository(initial: List<SupermarketPage> = emptyLi
 
     override fun delete(id: Long): Boolean = store.remove(id) != null
 }
-
