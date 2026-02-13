@@ -25,7 +25,8 @@ class ProductController(
 
         val (items, total) = repo.find(q, page, size)
 
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .header("X-Total-Count", total.toString())
             .body(items)
     }

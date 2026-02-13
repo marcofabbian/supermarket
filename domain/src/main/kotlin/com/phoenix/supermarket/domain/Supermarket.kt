@@ -10,6 +10,6 @@ data class Supermarket(
     val name: String,
     val logoUrl: String? = null,
     val repoBase: String? = null,
+    val url: String? = null,
     val createdAt: OffsetDateTime? = null
 )
-

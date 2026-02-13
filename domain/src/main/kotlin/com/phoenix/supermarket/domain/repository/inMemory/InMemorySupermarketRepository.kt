@@ -25,6 +25,7 @@ class InMemorySupermarketRepository(initial: List<Supermarket> = emptyList()) : 
                 id = id,
                 name = "supermarket",
                 repoBase = "https://github.com/your-org/supermarket",
+                url = "https://www.example-supermarket.com",
                 createdAt = OffsetDateTime.now()
             )
         }

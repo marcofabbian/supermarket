@@ -17,36 +17,37 @@ class JdbcSupermarketRepository(private val jdbc: JdbcTemplate) : SupermarketRep
             name = rs.getString("name"),
             logoUrl = rs.getString("logo_url"),
             repoBase = rs.getString("repo_base"),
+            url = rs.getString("url"),
             createdAt = rs.getObject("created_at", OffsetDateTime::class.java)
         )
     }
 
-    override fun all(): List<Supermarket> = jdbc.query("SELECT id, name, logo_url, repo_base, created_at FROM supermarket ORDER BY id", mapper)
+    override fun all(): List<Supermarket> = jdbc.query("SELECT id, name, logo_url, repo_base, url, created_at FROM supermarket ORDER BY id", mapper)
 
     override fun findById(id: Long): Supermarket? = try {
-        jdbc.queryForObject("SELECT id, name, logo_url, repo_base, created_at FROM supermarket WHERE id = ?", mapper, id)
+        jdbc.queryForObject("SELECT id, name, logo_url, repo_base, url, created_at FROM supermarket WHERE id = ?", mapper, id)
     } catch (ex: Exception) {
         null
     }
 
     override fun findByName(name: String): Supermarket? = try {
-        jdbc.queryForObject("SELECT id, name, logo_url, repo_base, created_at FROM supermarket WHERE name = ?", mapper, name)
+        jdbc.queryForObject("SELECT id, name, logo_url, repo_base, url, created_at FROM supermarket WHERE name = ?", mapper, name)
     } catch (ex: Exception) {
         null
     }
 
     override fun save(supermarket: Supermarket): Supermarket {
         return if (supermarket.id == 0L) {
-            val sql = "INSERT INTO supermarket (name, logo_url, repo_base) VALUES (?, ?, ?) RETURNING id, created_at"
+            val sql = "INSERT INTO supermarket (name, logo_url, repo_base, url) VALUES (?, ?, ?, ?) RETURNING id, created_at"
             val row = jdbc.queryForObject(sql, RowMapper { rs, _ ->
                 val id = rs.getLong("id")
                 val created = rs.getObject("created_at", OffsetDateTime::class.java)
                 supermarket.copy(id = id, createdAt = created)
-            }, supermarket.name, supermarket.logoUrl, supermarket.repoBase)
+            }, supermarket.name, supermarket.logoUrl, supermarket.repoBase, supermarket.url)
             row ?: supermarket
         } else {
-            val sql = "UPDATE supermarket SET name = ?, logo_url = ?, repo_base = ? WHERE id = ?"
-            jdbc.update(sql, supermarket.name, supermarket.logoUrl, supermarket.repoBase, supermarket.id)
+            val sql = "UPDATE supermarket SET name = ?, logo_url = ?, repo_base = ?, url = ? WHERE id = ?"
+            jdbc.update(sql, supermarket.name, supermarket.logoUrl, supermarket.repoBase, supermarket.url, supermarket.id)
             supermarket
         }
     }

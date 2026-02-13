@@ -15,7 +15,6 @@ import java.sql.ResultSet
  * a compile-time dependency on `spring-jdbc` so the class compiles. The application module
  * (web-api) wires this implementation into Spring when the `db` profile is active.
  */
-@Repository
 class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository {
 
     private val mapper = RowMapper { rs: ResultSet, _: Int ->

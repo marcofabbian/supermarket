@@ -24,6 +24,9 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
 
+    // springdoc OpenAPI UI (compatible with Spring Boot 3 / Spring Framework 6)
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+
     // JDBC support for DB-backed repository
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     runtimeOnly("org.postgresql:postgresql:42.5.4")
